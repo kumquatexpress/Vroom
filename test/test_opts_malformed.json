@@ -1,0 +1,4 @@
+{
+	"TemplateDirectory" "testdir/templates",
+    "CompileDirectory testdir/compiled",
+}

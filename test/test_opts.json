@@ -1,0 +1,10 @@
+{
+    "TemplateDirectory": "testdir/templates",
+    "CompileDirectory": "testdir/compiled",
+    "Metadata": {
+        "title": "test",
+        "body": "hello world"
+    },
+    "IrrelevantField": "asdf",
+    "Something Else": "not used"
+}
