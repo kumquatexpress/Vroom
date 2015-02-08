@@ -3,6 +3,7 @@ package logger
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 )
 
 func Log(msg string) {
@@ -15,5 +16,6 @@ func Warn(msg string) {
 
 func Error(msg string) {
 	fmt.Println("[Error] " + msg)
+	debug.PrintStack()
 	os.Exit(1)
 }

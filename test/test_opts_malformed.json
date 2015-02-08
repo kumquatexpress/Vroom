@@ -1,4 +1,4 @@
 {
-	"TemplateDirectory" "testdir/templates",
+	"LayoutDirectory" "testdir/templates",
     "BuildDirectory testdir/compiled",
 }

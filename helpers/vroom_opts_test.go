@@ -19,7 +19,7 @@ var _ = Describe("Vroom Options", func() {
 		})
 
 		It("returns the correct options when given json data", func() {
-			data := map[string]string{"TemplateDirectory": "test"}
+			data := map[string]string{"LayoutDirectory": "test"}
 			bytes, err := json.Marshal(data)
 			Expect(err).To(BeNil())
 
@@ -50,8 +50,9 @@ var _ = Describe("Vroom Options", func() {
 			filename = "../test/test_opts.json"
 			opts := NewVroomOptsFromFile(filename)
 
-			Expect(opts.TemplateDirectory).To(Equal("testdir/templates"))
+			Expect(opts.LayoutDirectory).To(Equal("testdir/templates"))
 			Expect(opts.BuildDirectory).To(Equal("testdir/compiled"))
+			Expect(opts.PagesDirectory).To(Equal("testdir/pages"))
 			Expect(opts.Metadata).To(Equal(
 				map[string]string{"title": "test", "body": "hello world"}))
 		})

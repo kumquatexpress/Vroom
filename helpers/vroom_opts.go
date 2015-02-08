@@ -11,28 +11,32 @@ import (
 const (
 	TEMPLATE_DIR = "templates"
 	COMPILE_DIR  = "build"
+	PAGES_DIR    = "_pages"
 )
 
 type VroomOpts struct {
-	TemplateDirectory string
+	LayoutDirectory string
 	BuildDirectory  string
-	Metadata          map[string]string
+	PagesDirectory  string
+	Metadata        map[string]interface{}
 }
 
 func NewVroomOpts() *VroomOpts {
 	return &VroomOpts{
-		TemplateDirectory: TEMPLATE_DIR,
+		LayoutDirectory: TEMPLATE_DIR,
 		BuildDirectory:  COMPILE_DIR,
+		PagesDirectory:  PAGES_DIR,
+		Metadata: map[string]interface{}{},
 	}
 }
 
 func parseOpts(data []byte) (*VroomOpts, error) {
-	var vo VroomOpts
-	err := json.Unmarshal(data, &vo)
+	vo := NewVroomOpts()
+	err := json.Unmarshal(data, vo)
 	if err != nil {
 		return nil, err
 	}
-	return &vo, nil
+	return vo, nil
 }
 
 func NewVroomOptsFromFile(filename string) *VroomOpts {

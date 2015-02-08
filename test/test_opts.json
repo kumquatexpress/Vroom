@@ -1,5 +1,6 @@
 {
-    "TemplateDirectory": "testdir/templates",
+    "LayoutDirectory": "testdir/templates",
+    "PagesDirectory": "testdir/pages",
     "BuildDirectory": "testdir/compiled",
     "Metadata": {
         "title": "test",
