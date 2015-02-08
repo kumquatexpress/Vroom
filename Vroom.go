@@ -17,16 +17,16 @@ func generateAndWriteFiles(pagesMap map[string]helpers.DirTree,
 	for dir, tree := range pagesMap {
 		dirData := utils.MergeMap(vo.Metadata, tree.Data)
 
-		for _, fn := range tree.Filenames {
+		for _, ft := range tree.FileTemplates {
 			_builddir = filepath.Join(vo.BuildDirectory, dir)
-			_filepath = filepath.Join(_builddir, fn)
+			_filepath = filepath.Join(_builddir, ft.Filename)
 
 			os.MkdirAll(_builddir, os.ModePerm)
 			file, err := os.Create(_filepath)
 			if err != nil {
 				logger.Error(err.Error())
 			}
-			tree.Template.ExecuteTemplate(file, fn, dirData)
+			ft.Template.ExecuteTemplate(file, ft.Filename, dirData)
 			logger.Log(fmt.Sprintf("File %s built", _filepath))
 		}
 		logger.Log(fmt.Sprintf("Directory %s built with data %+v", _builddir, dirData))

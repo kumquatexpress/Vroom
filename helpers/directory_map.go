@@ -8,9 +8,13 @@ import (
 	"text/template"
 )
 
+type FileTemplate struct {
+	Filename string
+	Template *template.Template
+}
+
 type DirTree struct {
-	Template  *template.Template
-	Filenames []string
+	FileTemplates []FileTemplate
 	Data map[string]interface{}
 }
 
@@ -49,10 +53,12 @@ func GetPagesDirectoryTree(vo *VroomOpts) map[string]DirTree {
 		if isCorrectExtension(info) {
 			dir, fn := filepath.Split(path)
 			if existing, ok := dirTreeMap[dir]; ok {
-				existing.Filenames = append(existing.Filenames, fn)
+				existing.FileTemplates = append(existing.FileTemplates,
+					FileTemplate{Filename:fn})
 				dirTreeMap[dir] = existing
 			} else {
-				dirTreeMap[dir] = DirTree{Filenames: []string{fn}}
+				dirTreeMap[dir] = DirTree{FileTemplates:
+					[]FileTemplate{FileTemplate{Filename:fn}}}
 			}
 		}
 		return nil
@@ -63,16 +69,15 @@ func GetPagesDirectoryTree(vo *VroomOpts) map[string]DirTree {
 func MakeAndParsePageTemplates(dirTreeMap map[string]DirTree,
 	layouts []string, vo *VroomOpts) map[string]DirTree {
 	for dir, tree := range dirTreeMap {
-		var _filepaths []string
-		for _, filename := range tree.Filenames {
-			_filepaths = append(layouts, filepath.Join(vo.PagesDirectory, dir, filename))
+		for idx, ft := range tree.FileTemplates {
+			_filepaths := append(layouts, filepath.Join(vo.PagesDirectory, dir, ft.Filename))
+			temp, err := template.ParseFiles(_filepaths...)
+			if err != nil {
+				logger.Error(err.Error())
+			}
+			ft.Template = temp
+			tree.FileTemplates[idx] = ft
 		}
-
-		temp, err := template.ParseFiles(_filepaths...)
-		if err != nil {
-			logger.Error(err.Error())
-		}
-		tree.Template = temp
 		dirTreeMap[dir] = tree
 	}
 	return dirTreeMap
