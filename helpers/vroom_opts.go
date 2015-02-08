@@ -15,14 +15,14 @@ const (
 
 type VroomOpts struct {
 	TemplateDirectory string
-	CompileDirectory  string
+	BuildDirectory  string
 	Metadata          map[string]string
 }
 
-func defaultOpts() *VroomOpts {
+func NewVroomOpts() *VroomOpts {
 	return &VroomOpts{
 		TemplateDirectory: TEMPLATE_DIR,
-		CompileDirectory:  COMPILE_DIR,
+		BuildDirectory:  COMPILE_DIR,
 	}
 }
 
@@ -35,20 +35,20 @@ func parseOpts(data []byte) (*VroomOpts, error) {
 	return &vo, nil
 }
 
-func NewVroomOpts(filename string) *VroomOpts {
+func NewVroomOptsFromFile(filename string) *VroomOpts {
 	if !utils.Exists(filename) {
 		logger.Log("No options file found, using default options.")
-		return defaultOpts()
+		return NewVroomOpts()
 	}
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		logger.Error(err.Error())
-		return defaultOpts()
+		logger.Warn(err.Error())
+		return NewVroomOpts()
 	}
 	opts, err := parseOpts(data)
 	if err != nil {
-		logger.Error(err.Error())
-		return defaultOpts()
+		logger.Warn(err.Error())
+		return NewVroomOpts()
 	}
 	return opts
 }

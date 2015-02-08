@@ -31,27 +31,27 @@ var _ = Describe("Vroom Options", func() {
 
 	Describe("Default Options", func() {
 		It("returns the correct type as a default option set", func() {
-			Expect(defaultOpts()).To(BeAssignableToTypeOf(&VroomOpts{}))
+			Expect(NewVroomOpts()).To(BeAssignableToTypeOf(&VroomOpts{}))
 		})
 	})
 
-	Describe("NewVroomOpts", func() {
+	Describe("NewVroomOptsFromFile", func() {
 		It("returns the default when given a non-existant filename", func() {
 			filename = "YouCan'tFindMe"
-			Expect(NewVroomOpts(filename)).To(Equal(defaultOpts()))
+			Expect(NewVroomOptsFromFile(filename)).To(Equal(NewVroomOpts()))
 		})
 
 		It("returns the default when given malformed data", func() {
 			filename = "../test/test_opts_malformed.json"
-			Expect(NewVroomOpts(filename)).To(Equal(defaultOpts()))
+			Expect(NewVroomOptsFromFile(filename)).To(Equal(NewVroomOpts()))
 		})
 
 		It("returns a correct opt struct, ignoring irrelevant data", func() {
 			filename = "../test/test_opts.json"
-			opts := NewVroomOpts(filename)
+			opts := NewVroomOptsFromFile(filename)
 
 			Expect(opts.TemplateDirectory).To(Equal("testdir/templates"))
-			Expect(opts.CompileDirectory).To(Equal("testdir/compiled"))
+			Expect(opts.BuildDirectory).To(Equal("testdir/compiled"))
 			Expect(opts.Metadata).To(Equal(
 				map[string]string{"title": "test", "body": "hello world"}))
 		})

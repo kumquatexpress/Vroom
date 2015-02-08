@@ -2,3 +2,5 @@
 */.vendor
 output
 Vroom
+build
+templates

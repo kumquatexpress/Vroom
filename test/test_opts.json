@@ -1,6 +1,6 @@
 {
     "TemplateDirectory": "testdir/templates",
-    "CompileDirectory": "testdir/compiled",
+    "BuildDirectory": "testdir/compiled",
     "Metadata": {
         "title": "test",
         "body": "hello world"
